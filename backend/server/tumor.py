@@ -3,14 +3,15 @@ import numpy as np
 import io
 from PIL import Image
 import warnings
+import json
 warnings.filterwarnings("ignore")
-import keras
-from keras import backend as K
-from keras.models import Sequential, load_model
-from keras.preprocessing.image import ImageDataGenerator, img_to_array
+# import keras
+# from keras import backend as K
+# from keras.models import Sequential, load_model
+# from keras.preprocessing.image import ImageDataGenerator, img_to_array
 from flask import Flask, render_template, jsonify, request
 from io import BytesIO
-from keras import layers
+# from keras import layers
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -55,6 +56,7 @@ def predict():
 
 
     response = {
+        #'prediction' : json.dumps({
         'atelectasis': prediction[0],
         'cardiomegaly': prediction[1],
         'effusion': prediction[2],
@@ -69,6 +71,7 @@ def predict():
         'fibrosis': prediction[11],
         'pleural_thickening': prediction[12],
         'hernia': prediction[13]
+        
     }
 
 
