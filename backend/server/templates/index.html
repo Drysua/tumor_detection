@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">Tumor Detection</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">Additional training</a>
+        <a class="nav-link" href="#">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <script src = "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+  
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">Upload your MRI</h1>
+    <p class="lead">
+      
+      
+      <div class="row py-4">
+        <div class="col-lg-6 mx-auto">
+
+                <input id="image-selector" type="file" class="form-control border-0">
+                <div class="input-group-append">
+                    <label for="image-selector" class="btn btn-light m-0 rounded-pill px-4"> 
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
+                    </label>
+                </div>
+        </div>
+    </div>
+
+<!-- 
+    <div class="wrapper">
+      <div class="container">
+        <h1 style = "color: black;">Upload a file</h1>
+        <div class="upload-container">
+          <div class="border-container">
+            <div class="icons fa-4x">
+              <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
+              <i class="fas fa-file-alt" data-fa-transform="shrink-2 up-4"></i>
+              <i class="fas fa-file-pdf" data-fa-transform="shrink-3 down-2 right-6 rotate-45"></i>
+            </div>
+            <input type="file" id="image-selector">
+            <p>Drag and drop files here, or 
+              <a href="#" id="file-browser">browse</a> your computer.</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+    </p>
+    <img id = "selected-image" src= ""/>
+    <button id="predict-button" class="btn btn-lg btn-secondary">Predict</button>
+  </main>
+
+  <script>
+    let base64Image;
+    
+    // $("#file-browser").click(function(e) {
+    //   e.preventDefault();
+    //   $("#image-selector").trigger("click");
+    //   $("#image-selector").change(function()
+    //   {
+    //       let reader = new FileReader();
+    //       reader.onload = function(e) { 
+    //           let dataURL = reader.result;
+    //           $('#selected-image').attr("src", dataURL);
+    //           base64Image = dataURL.replace("data:image/png;base64,", "")
+    //           console.log("get it")
+    //       }
+    //       reader.readAsDataURL($("#image-selector")[0].files[0]);
+    //   });
+    // });
+
+    $("#file-upload").css("opacity", "0");
+
+    $("#image-selector").change(function()
+      {
+          let reader = new FileReader();
+          reader.onload = function(e) { 
+              let dataURL = reader.result;
+              $('#selected-image').attr("src", dataURL);
+              base64Image = dataURL.replace("data:image/png;base64,", "")
+              console.log("get it")
+          }
+          reader.readAsDataURL($("#image-selector")[0].files[0]);
+      });
+
+    // $("#file-browser").click(function(e) {
+    //   e.preventDefault();
+    //   $("#file-upload").trigger("click");
+    // });
+        $("#predict-button").click(function(event)
+        {
+            let message = {
+                image: base64Image
+            }
+            // let message = {
+            //         number: $("#number-input").val()
+            //     }
+            console.log(message);
+            $.post("http://localhost:5000/predict", JSON.stringify(message), function(response){
+                {% for n in arr %}
+                $('#result{{n}}').attr("src", "data:image/png;base64," + response.image{{n}});
+                {% endfor %}
+                console.log("predicted");
+            });
+        });
+
+    </script>
+
+    <p>
+    {% for n in arr %}
+    <img id="result{{n}}" src="" alt ="" height="250" width="250">
+    {% endfor %}
+    </p>
+
+    <footer class="mastfoot mt-auto">
+    
+    </footer>
+</div>
+{% endblock %}

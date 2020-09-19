@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Drysua, B11GDEN">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>Tutumor</title>
+
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+    <!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/"> -->
+
+    <!-- CSS -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/cover.css" rel="stylesheet">
+    <link href="static/css/upload.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/all.min.css">
+    <script src="static/js/all.js"></script>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+  </head>
+
+  <body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">Tumor Detection</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">Additional training</a>
+        <a class="nav-link" href="#">Contact</a>
+      </nav>
+    </div>
+    </header>
+
+
+  <script src = "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+  
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">Upload your MRI</h1>
+    <p class="lead">
+      
+      
+      <div class="row py-4">
+        <div class="col-lg-6 mx-auto">
+
+                <input id="image-selector" type="file" class="form-control border-0">
+                <div class="input-group-append">
+                    <label for="image-selector" class="btn btn-light m-0 rounded-pill px-4"> 
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
+                    </label>
+                </div>
+        </div>
+    </div>
+
+<!-- 
+    <div class="wrapper">
+      <div class="container">
+        <h1 style = "color: black;">Upload a file</h1>
+        <div class="upload-container">
+          <div class="border-container">
+            <div class="icons fa-4x">
+              <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
+              <i class="fas fa-file-alt" data-fa-transform="shrink-2 up-4"></i>
+              <i class="fas fa-file-pdf" data-fa-transform="shrink-3 down-2 right-6 rotate-45"></i>
+            </div>
+            <input type="file" id="image-selector">
+            <p>Drag and drop files here, or 
+              <a href="#" id="file-browser">browse</a> your computer.</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+    </p>
+    <img id = "selected-image" src= ""/>
+    <button id="predict-button" class="btn btn-lg btn-secondary">Predict</button>
+  </main>
+
+  <script>
+    let base64Image;
+    
+    // $("#file-browser").click(function(e) {
+    //   e.preventDefault();
+    //   $("#image-selector").trigger("click");
+    //   $("#image-selector").change(function()
+    //   {
+    //       let reader = new FileReader();
+    //       reader.onload = function(e) { 
+    //           let dataURL = reader.result;
+    //           $('#selected-image').attr("src", dataURL);
+    //           base64Image = dataURL.replace("data:image/png;base64,", "")
+    //           console.log("get it")
+    //       }
+    //       reader.readAsDataURL($("#image-selector")[0].files[0]);
+    //   });
+    // });
+
+    $("#file-upload").css("opacity", "0");
+
+    $("#image-selector").change(function()
+      {
+          let reader = new FileReader();
+          reader.onload = function(e) { 
+              let dataURL = reader.result;
+              $('#selected-image').attr("src", dataURL);
+              base64Image = dataURL.replace("data:image/png;base64,", "")
+              console.log("get it")
+          }
+          reader.readAsDataURL($("#image-selector")[0].files[0]);
+          $('#tumor1').text("");
+          $('#tumor2').text("");
+          $('#tumor3').text("");
+          $('#tumor4').text("");
+          $('#tumor5').text("");
+          $('#tumor6').text("");
+          $('#tumor7').text("");
+          $('#tumor8').text("");
+          $('#tumor9').text("");
+          $('#tumor10').text("");
+          $('#tumor11').text("");
+          $('#tumor12').text("");
+          $('#tumor13').text("");
+          $('#tumor14').text("");
+
+      });
+
+    // $("#file-browser").click(function(e) {
+    //   e.preventDefault();
+    //   $("#file-upload").trigger("click");
+    // });
+
+
+    $("#predict-button").click(function(event)
+    {
+        let message = {
+            image: base64Image
+        }
+        // let message = {
+        //         number: $("#number-input").val()
+        //     }
+        console.log(message);
+        $.post("http://localhost:5000/predict", JSON.stringify(message), function(response){
+            $('#tumor1').text(response.atelectasis);
+            $('#tumor2').text(response.cardiomegaly);
+            $('#tumor3').text(response.effusion);
+            $('#tumor4').text(response.infiltration);
+            $('#tumor5').text(response.mass);
+            $('#tumor6').text(response.nodule);
+            $('#tumor7').text(response.pneumonia);
+            $('#tumor8').text(response.pneumothorax);
+            $('#tumor9').text(response.consolidation);
+            $('#tumor10').text(response.edema);
+            $('#tumor11').text(response.emphysema);
+            $('#tumor12').text(response.fibrosis);
+            $('#tumor13').text(response.pleural_thickening);
+            $('#tumor14').text(response.hernia);
+            console.log("predicted");
+        });
+    });
+
+  </script>
+
+  <p>Atelectasis: <span id = "tumor1"></span></p>
+  <p>Cardiomegaly: <span id = "tumor2"></span></p>
+  <p>Effusion: <span id = "tumor3"></span></p>
+  <p>Infiltration: <span id = "tumor4"></span></p>
+  <p>Mass: <span id = "tumor5"></span></p>
+  <p>Nodule: <span id = "tumor6"></span></p>
+  <p>Pneumonia: <span id = "tumor7"></span></p>
+  <p>Pneumothorax: <span id = "tumor8"></span></p>
+  <p>Consolidation: <span id = "tumor9"></span></p>
+  <p>Edema: <span id = "tumor10"></span></p>
+  <p>Emphysema: <span id = "tumor11"></span></p>
+  <p>Fibrosis: <span id = "tumor12"></span></p>
+  <p>Pleural_Thickening: <span id = "tumor13"></span></p>
+  <p>Hernia: <span id = "tumor14"></span></p>
+
+  <footer class="mastfoot mt-auto">
+    
+  </footer>
+</div>
+</body>
+</html>
