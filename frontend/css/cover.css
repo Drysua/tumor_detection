@@ -29,6 +29,7 @@ body {
   height: 100%;
   /* background-color: #333; */
   background: url('../images/background_1920.jpg') no-repeat;
+  background-attachment: fixed;
 
 }
 
@@ -37,7 +38,7 @@ body {
   display: flex;
   color: #fff;
   /* text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5); */
-  box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5); 
+  /* box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);  */
 }
 
 .cover-container {
@@ -87,6 +88,16 @@ body {
   }
 }
 
+
+.cover-heading{
+  margin-top: 50px;
+}
+
+#selected-image{
+  height: 350px;
+  margin-bottom: 20px;
+  margin-top: -20px;
+}
 
 /*
  * Cover

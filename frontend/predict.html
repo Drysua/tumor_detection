@@ -59,14 +59,14 @@
   
   <main role="main" class="inner cover">
     <h1 class="cover-heading">Upload your MRI</h1>
-    <p class="lead">
+    <p class="lead"></p>
       
       
       <div class="row py-4">
         <div class="col-lg-6 mx-auto">
 
                 <input id="image-selector" type="file" class="form-control border-0">
-                <div class="input-group-append">
+                <div id="upload_button" class="input-group-append">
                     <label for="image-selector" class="btn btn-light m-0 rounded-pill px-4"> 
                       <i class="fas fa-cloud-upload-alt"></i>
                       <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
@@ -97,7 +97,7 @@
 
     </p>
     <img id = "selected-image" src= ""/>
-    <button id="predict-button" class="btn btn-lg btn-secondary">Predict</button>
+    <p><button id="predict-button" class="btn btn-lg btn-secondary">Predict</button></p>
   </main>
 
   <script>
@@ -183,6 +183,9 @@
     });
 
   </script>
+
+<p><span id = "tumor"></span></p>
+
 
   <p>Atelectasis: <span id = "tumor1"></span></p>
   <p>Cardiomegaly: <span id = "tumor2"></span></p>

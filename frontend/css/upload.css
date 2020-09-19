@@ -9,6 +9,14 @@
     opacity: 0;
 }
 
+#h1_header{
+  margin-top: 30px;
+}
+
+#upload_button {
+  margin: 0 auto;
+  max-width: 155px;
+}
 
 .image-area {
     border: 2px dashed rgba(255, 255, 255, 0.7);
@@ -50,7 +58,7 @@
   }
   
   .container {
-    background-color: #f9f9f9;
+    background-color: #fafafa;
     padding: 20px;
     border-radius: 10px;
     /*border: 0.5px solid rgba(130, 130, 130, 0.25);*/
@@ -72,7 +80,7 @@
   }
   
   .border-container p {
-    color: #130f40;
+    color: #0f0c3a;
     font-weight: 600;
     font-size: 1.1em;
     letter-spacing: -1px;
