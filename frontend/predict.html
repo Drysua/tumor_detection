@@ -74,27 +74,6 @@
                 </div>
         </div>
     </div>
-
-<!-- 
-    <div class="wrapper">
-      <div class="container">
-        <h1 style = "color: black;">Upload a file</h1>
-        <div class="upload-container">
-          <div class="border-container">
-            <div class="icons fa-4x">
-              <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
-              <i class="fas fa-file-alt" data-fa-transform="shrink-2 up-4"></i>
-              <i class="fas fa-file-pdf" data-fa-transform="shrink-3 down-2 right-6 rotate-45"></i>
-            </div>
-            <input type="file" id="image-selector">
-            <p>Drag and drop files here, or 
-              <a href="#" id="file-browser">browse</a> your computer.</p>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-
     </p>
     <img id = "selected-image" src= ""/>
     <p><button id="predict-button" class="btn btn-lg btn-secondary">Predict</button></p>
@@ -102,22 +81,7 @@
 
   <script>
     let base64Image;
-    
-    // $("#file-browser").click(function(e) {
-    //   e.preventDefault();
-    //   $("#image-selector").trigger("click");
-    //   $("#image-selector").change(function()
-    //   {
-    //       let reader = new FileReader();
-    //       reader.onload = function(e) { 
-    //           let dataURL = reader.result;
-    //           $('#selected-image').attr("src", dataURL);
-    //           base64Image = dataURL.replace("data:image/png;base64,", "")
-    //           console.log("get it")
-    //       }
-    //       reader.readAsDataURL($("#image-selector")[0].files[0]);
-    //   });
-    // });
+    var filename;
 
     $("#file-upload").css("opacity", "0");
 
@@ -131,76 +95,31 @@
               console.log("get it")
           }
           reader.readAsDataURL($("#image-selector")[0].files[0]);
-          $('#tumor1').text("");
-          $('#tumor2').text("");
-          $('#tumor3').text("");
-          $('#tumor4').text("");
-          $('#tumor5').text("");
-          $('#tumor6').text("");
-          $('#tumor7').text("");
-          $('#tumor8').text("");
-          $('#tumor9').text("");
-          $('#tumor10').text("");
-          $('#tumor11').text("");
-          $('#tumor12').text("");
-          $('#tumor13').text("");
-          $('#tumor14').text("");
-
+          filename = $("#image-selector")[0].files[0].name;
       });
-
-    // $("#file-browser").click(function(e) {
-    //   e.preventDefault();
-    //   $("#file-upload").trigger("click");
-    // });
 
 
     $("#predict-button").click(function(event)
     {
         let message = {
-            image: base64Image
+            image: base64Image,
+            name: filename
         }
-        // let message = {
-        //         number: $("#number-input").val()
-        //     }
+
         console.log(message);
         $.post("http://localhost:5000/predict", JSON.stringify(message), function(response){
-            $('#tumor1').text(response.atelectasis);
-            $('#tumor2').text(response.cardiomegaly);
-            $('#tumor3').text(response.effusion);
-            $('#tumor4').text(response.infiltration);
-            $('#tumor5').text(response.mass);
-            $('#tumor6').text(response.nodule);
-            $('#tumor7').text(response.pneumonia);
-            $('#tumor8').text(response.pneumothorax);
-            $('#tumor9').text(response.consolidation);
-            $('#tumor10').text(response.edema);
-            $('#tumor11').text(response.emphysema);
-            $('#tumor12').text(response.fibrosis);
-            $('#tumor13').text(response.pleural_thickening);
-            $('#tumor14').text(response.hernia);
+            $('#id').text(response.id);
+            $('#Labels').text(response.Labels.join(', '));
             console.log("predicted");
         });
     });
 
   </script>
 
-<p><span id = "tumor"></span></p>
-
-
-  <p>Atelectasis: <span id = "tumor1"></span></p>
-  <p>Cardiomegaly: <span id = "tumor2"></span></p>
-  <p>Effusion: <span id = "tumor3"></span></p>
-  <p>Infiltration: <span id = "tumor4"></span></p>
-  <p>Mass: <span id = "tumor5"></span></p>
-  <p>Nodule: <span id = "tumor6"></span></p>
-  <p>Pneumonia: <span id = "tumor7"></span></p>
-  <p>Pneumothorax: <span id = "tumor8"></span></p>
-  <p>Consolidation: <span id = "tumor9"></span></p>
-  <p>Edema: <span id = "tumor10"></span></p>
-  <p>Emphysema: <span id = "tumor11"></span></p>
-  <p>Fibrosis: <span id = "tumor12"></span></p>
-  <p>Pleural_Thickening: <span id = "tumor13"></span></p>
-  <p>Hernia: <span id = "tumor14"></span></p>
+<div>
+  <span id = "id"></span></p>
+  <span id = "Labels"></span></p>
+</div> 
 
   <footer class="mastfoot mt-auto">
     
