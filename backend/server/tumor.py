@@ -46,31 +46,32 @@ def preprocess_image(image,target_size):
 #     return render_template('predict.html')
 
 
-# @app.route("/predict", methods = ["POST"])
-# def predict():
-#     message = request.get_json(force = True)
-#     print(message)
-#     encoded = message['image']
-#     img_name = message['name']
-#     decoded = base64.b64decode(encoded)
-#     image = Image.open(io.BytesIO(decoded))
-#     processed_image = preprocess_image(image, target_size = (224, 224))
-#     imgs = processed_image.reshape([1, 224, 224, 3])
+@app.route("/form", methods = ["POST"])
+def predict():
+    message = request.get_json(force = True)
+    print(message)
+    encoded = message['image']
+    img_name = message['name']
+    decoded = base64.b64decode(encoded)
+    image = Image.open(io.BytesIO(decoded))
+    processed_image = preprocess_image(image, target_size = (224, 224))
+    imgs = processed_image.reshape([1, 224, 224, 3])
 
-#     prediction = classifier_process(model, imgs, threshold = 0.5)
-#     print(prediction)
-
-
-#     response = {
-#         "Labels": prediction[0],
-#         "id": img_name
-#     }
+    prediction = classifier_process(model, imgs, threshold = 0.5)
+    print(prediction)
 
 
-#     return jsonify(response)
+    response = {
+        "Labels": prediction[0],
+        "id": img_name
+    }
+
+
+    return jsonify(response)
 
 @app.route("/predict", methods = ["POST"])
 def upload_file():
+    print(request.files)
     if(request.method == 'POST'):
         img = request.files['file']
         img_name = img.filename
@@ -91,7 +92,11 @@ def upload_file():
         response_pickled = jsonpickle.encode(response)
 
         return Response(response=response_pickled, status=200, mimetype="application/json")
+        # return response_pickled
 
-
+@app.route("/joke", methods = ["POST"])
+def joke():
+    print(request.files['file'])
+    return "ok"
     
 

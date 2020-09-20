@@ -57,7 +57,7 @@
 
 
   
-  <main role="main" class="inner cover">
+  <!-- <main role="main" class="inner cover">
     <h1 class="cover-heading">Upload your MRI</h1>
     <p class="lead"></p>
       
@@ -77,23 +77,80 @@
     </p>
     <img id = "selected-image" src= ""/>
     <p><button id="predict-button" class="btn btn-lg btn-secondary">Predict</button></p>
+  </main> -->
+
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">Upload your MRI</h1>
+    <p class="lead"></p>
+      
+      
+      <div class="row py-4">
+        <div class="col-lg-6 mx-auto">
+
+
+                <form class="form-inline" id="uploadform" action="http://localhost:5000/predict" method="POST" enctype="multipart/form-data">
+                  <div class="form-group">
+                    
+                    <input id="filepicker" class="input-group form-control border-0" type="file" name="file" multiple accept=".jpg, .jpeg, .png">
+                    
+                    <!-- <input id="image-selector" type="file" class="form-control border-0"> -->
+                    <div id="upload_button" class="input-group-append">
+                        <label for="filepicker" class="btn btn-light m-0 rounded-pill px-4"> 
+                          <i class="fas fa-cloud-upload-alt"></i>
+                          <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
+                        </label>
+                    </div>
+
+
+                    <p><input class="input-group btn btn-lg btn-secondary" type="submit" value="Upload" id="upload-button"></p>
+                  </div>
+                </form>
+        </div>
+    </div>
+    </p>
+    <img id = "selected-image" src= ""/>
+    <!-- <p><button id="predict-button" class="btn btn-lg btn-secondary">Predict</button></p> -->
   </main>
 
-<form class="form-inline" id="uploadform" action="http://localhost:5000/predict" method="POST" enctype="multipart/form-data">
+<!-- <form class="form-inline" id="uploadform" action="http://localhost:5000/predict" method="POST" enctype="multipart/form-data">
   <div class="form-group">
     <input class="input-group" id="filepicker" type="file" name="file" multiple accept=".jpg, .jpeg, .png">
     <input class="input-group" type="submit" value="Загрузить!" id="upload-button">
   </div>
-</form>
+</form> -->
+
+  <!-- <div id="like_button_container"></div> -->
+  
+  <!-- Загрузим React. -->
+  <!-- Примечание: для деплоя на продакшен замените окончание «development.js» на «production.min.js». -->
+  <!-- <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script> -->
+  <!-- <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script> -->
+
+  <!-- Загрузим наш React-компонент. -->
+  <!-- <script src="js/like_button.js"></script> -->
   
   
   <script>
     let base64Image;
     var filename;
 
+    $("#filepicker").css("opacity", "0");
     $("#file-upload").css("opacity", "0");
 
-    $("#image-selector").change(function()
+    // $("#image-selector").change(function()
+    //   {
+    //       let reader = new FileReader();
+    //       reader.onload = function(e) { 
+    //           let dataURL = reader.result;
+    //           $('#selected-image').attr("src", dataURL);
+    //           base64Image = dataURL.replace("data:image/png;base64,", "")
+    //           console.log("get it")
+    //       }
+    //       reader.readAsDataURL($("#image-selector")[0].files[0]);
+    //       filename = $("#image-selector")[0].files[0].name;
+    //   });
+
+      $("#filepicker").change(function()
       {
           let reader = new FileReader();
           reader.onload = function(e) { 
@@ -102,39 +159,72 @@
               base64Image = dataURL.replace("data:image/png;base64,", "")
               console.log("get it")
           }
-          reader.readAsDataURL($("#image-selector")[0].files[0]);
-          filename = $("#image-selector")[0].files[0].name;
+          reader.readAsDataURL($("#filepicker")[0].files[0]);
+          filename = $("#filepicker")[0].files[0].name;
       });
 
-      // $("#filepicker").change(function()
-      // {
-      //     let reader = new FileReader();
-      //     reader.onload = function(e) { 
-      //         let dataURL = reader.result;
-      //         $('#selected-image').attr("src", dataURL);
-      //         base64Image = dataURL.replace("data:image/png;base64,", "")
-      //         console.log("get it")
-      //     }
-      //     reader.readAsDataURL($("#filepicker")[0].files[0]);
-      //     filename = $("#filepicker")[0].files[0].name;
-      // });
+      
 
 
-    $("#predict-button").click(function(event)
-    {
-        let message = {
-            image: base64Image,
-            name: filename
-        }
+    // $("#predict-button").click(function(event)
+    // {
+    //     let message = {
+    //         image: base64Image,
+    //         name: filename
+    //     }
 
-        console.log(message);
-        // http://localhost:5000/predict
-        $.post("https://8045999fff2f.ngrok.io/predict", JSON.stringify(message), function(response){
-            $('#id').text(response.id);
-            $('#Labels').text(response.Labels.join(', '));
-            console.log("predicted");
-        });
-    });
+    //     console.log(message);
+    //     // http://localhost:5000/predict
+    //     $.post("https://8045999fff2f.ngrok.io/predict", JSON.stringify(message), function(response){
+    //         $('#id').text(response.id);
+    //         $('#Labels').text(response.Labels.join(', '));
+    //         console.log("predicted");
+    //     });
+    // });
+
+    // $("#upload-button").closest("form").submit(function(event)
+    // {
+    //     let message = {
+    //         image: base64Image,
+    //         name: filename
+    //     }
+
+    //     console.log(message);
+    //     // http://localhost:5000/predict
+    //     $.post("http://localhost:5000/", JSON.stringify(message), function(response){
+    //         $('#id').text(response.id);
+    //         $('#Labels').text(response.Labels.join(', '));
+    //         console.log("predicted");
+    //     });
+    // });
+
+                $("#uploadform").on("submit", function(e) {
+                    e.preventDefault();
+                    var formData = new FormData(this);
+        
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:5000/predict",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        dataType: false,
+                        beforeSend: function() {
+                            $("#id").html("sending...");
+                        },
+                        success: function(response) {
+                            // do something
+                            $("#id").text(response.id);
+                            $("#Labels").text(response.Labels.join(', '));
+                            console.log(response)
+                            },
+                        error: function (xhr, status, error) {
+                            console.log(error);
+                            }
+                    });
+                });
+
+    
 
   </script>
 
