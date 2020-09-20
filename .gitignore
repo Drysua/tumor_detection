@@ -1,2 +1,3 @@
 /.vscode
 /backend/server/__pycache__
+/backend/server/neural/__pycache__

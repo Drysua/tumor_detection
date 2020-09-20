@@ -1,0 +1,25 @@
+<!doctype html>
+    <html>
+                          <head>
+                             <title>Пример формы</title>
+                          </head>
+                          <body>
+                            <h1>Форма для регистрации</h1>
+                            <div>
+                                <form method="post" action="http://localhost:5000/form">
+                                    <input type="email" placeholder="Введите адрес почты" name="email"><br/>
+                                    <input type="password" placeholder="Введите пароль" name="password"><br/>
+                                    <button type="submit" >Записаться</button>
+                                </form>
+
+                                <form class="form-inline" id="uploadform" action="http://localhost:5000/predict" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                      <input class="input-group" id="filepicker" type="file" name="file" multiple accept=".jpg, .jpeg, .png">
+                                      <input class="input-group" type="submit" value="Загрузить!" id="upload-button">
+                                    </div>
+                                </form>
+                            </div>
+                          </body>
+                        </html>
+
+                        

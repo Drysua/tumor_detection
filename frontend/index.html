@@ -58,15 +58,15 @@
 
   
   <main role="main" class="inner cover">
-    <h1 id="h1_header" class="cover-heading">Upload your MRI</h1>
-    <p class="lead">
+    <h1 class="cover-heading">Upload your MRI</h1>
+    <p class="lead"></p>
       
-
+      
       <div class="row py-4">
         <div class="col-lg-6 mx-auto">
 
                 <input id="image-selector" type="file" class="form-control border-0">
-                <div class="input-group-append">
+                <div id="upload_button" class="input-group-append">
                     <label for="image-selector" class="btn btn-light m-0 rounded-pill px-4"> 
                       <i class="fas fa-cloud-upload-alt"></i>
                       <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
@@ -74,51 +74,22 @@
                 </div>
         </div>
     </div>
-
-<!-- 
-    <div class="wrapper">
-      <div class="container">
-        <h1 style = "color: black;">Upload a file</h1>
-        <div class="upload-container">
-          <div class="border-container">
-            <div class="icons fa-4x">
-              <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
-              <i class="fas fa-file-alt" data-fa-transform="shrink-2 up-4"></i>
-              <i class="fas fa-file-pdf" data-fa-transform="shrink-3 down-2 right-6 rotate-45"></i>
-            </div>
-            <input type="file" id="image-selector">
-            <p>Drag and drop files here, or 
-              <a href="#" id="file-browser">browse</a> your computer.</p>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-
     </p>
     <img id = "selected-image" src= ""/>
-    <p>dskjfh</p>
     <p><button id="predict-button" class="btn btn-lg btn-secondary">Predict</button></p>
   </main>
 
+<form class="form-inline" id="uploadform" action="http://localhost:5000/predict" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <input class="input-group" id="filepicker" type="file" name="file" multiple accept=".jpg, .jpeg, .png">
+    <input class="input-group" type="submit" value="Загрузить!" id="upload-button">
+  </div>
+</form>
+  
+  
   <script>
     let base64Image;
-    
-    // $("#file-browser").click(function(e) {
-    //   e.preventDefault();
-    //   $("#image-selector").trigger("click");
-    //   $("#image-selector").change(function()
-    //   {
-    //       let reader = new FileReader();
-    //       reader.onload = function(e) { 
-    //           let dataURL = reader.result;
-    //           $('#selected-image').attr("src", dataURL);
-    //           base64Image = dataURL.replace("data:image/png;base64,", "")
-    //           console.log("get it")
-    //       }
-    //       reader.readAsDataURL($("#image-selector")[0].files[0]);
-    //   });
-    // });
+    var filename;
 
     $("#file-upload").css("opacity", "0");
 
@@ -132,39 +103,45 @@
               console.log("get it")
           }
           reader.readAsDataURL($("#image-selector")[0].files[0]);
+          filename = $("#image-selector")[0].files[0].name;
       });
 
-    // $("#file-browser").click(function(e) {
-    //   e.preventDefault();
-    //   $("#file-upload").trigger("click");
-    // });
+      // $("#filepicker").change(function()
+      // {
+      //     let reader = new FileReader();
+      //     reader.onload = function(e) { 
+      //         let dataURL = reader.result;
+      //         $('#selected-image').attr("src", dataURL);
+      //         base64Image = dataURL.replace("data:image/png;base64,", "")
+      //         console.log("get it")
+      //     }
+      //     reader.readAsDataURL($("#filepicker")[0].files[0]);
+      //     filename = $("#filepicker")[0].files[0].name;
+      // });
 
 
     $("#predict-button").click(function(event)
     {
         let message = {
-            image: base64Image
+            image: base64Image,
+            name: filename
         }
-        // let message = {
-        //         number: $("#number-input").val()
-        //     }
+
         console.log(message);
-        $.post("http://localhost:5000/predict", JSON.stringify(message), function(response){
-            $('#result1').attr("src", "data:image/png;base64," + response.image1);
-            $('#result2').attr("src", "data:image/png;base64," + response.image2);
-            $('#result3').attr("src", "data:image/png;base64," + response.image3);
-            $('#result4').attr("src", "data:image/png;base64," + response.image4);
+        // http://localhost:5000/predict
+        $.post("https://8045999fff2f.ngrok.io/predict", JSON.stringify(message), function(response){
+            $('#id').text(response.id);
+            $('#Labels').text(response.Labels.join(', '));
             console.log("predicted");
-            console.log(response.image1);
         });
     });
 
   </script>
 
-  <img id="result1" src="" alt ="" height="250" width="250">
-  <img id="result2" src="" alt ="" height="250" width="250">
-  <img id="result3" src="" alt ="" height="250" width="250">
-  <img id="result4" src="" alt ="" height="250" width="250">
+<div>
+  <span id = "id"></span></p>
+  <span id = "Labels"></span></p>
+</div> 
 
   <footer class="mastfoot mt-auto">
     
