@@ -22,7 +22,7 @@ cwd = os.getcwd()
 app = Flask(__name__)
 CORS(app)
 
-model_path = "./backend/server/neural/inceptionV3_classifier.h5"
+model_path = "./backend/server/neural/model.h5"
 model = load_model(model_path, compile = False)
 print(" * Model loaded!")
 

@@ -13,10 +13,33 @@
   margin-top: 30px;
 }
 
+#filepicker{
+  display: none;
+}
+
+
 #upload_button {
+  display: inline-block; 
+  /* position: absolute; */
   margin: 0 auto;
+  text-align: center;
   max-width: 155px;
 }
+
+#submit-button{
+  display: block;
+  /* position: absolute; */
+  display: table-row;
+  margin: 0 auto;
+  max-width: 155px;
+
+}
+
+
+/* #form-div{
+  height: fit-content;
+  margin: 0 auto;
+} */
 
 .image-area {
     border: 2px dashed rgba(255, 255, 255, 0.7);
